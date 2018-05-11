@@ -12,7 +12,12 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+
+        let rect = CGRect(x: 0, y: 64, width: view.bounds.width, height: 40)
+        let titles = ["头条", "视频", "娱乐", "要问", "体育" , "科技" , "汽车" , "时尚" , "图片" , "游戏" , "房产"]
+        let pageTitleView = PageTitleView(frame: rect, style: PageStyle(), titles: titles)
+        view.addSubview(pageTitleView)
+
     }
 
     override func didReceiveMemoryWarning() {
