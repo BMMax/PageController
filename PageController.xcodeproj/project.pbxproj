@@ -18,6 +18,8 @@
 		CED40F7F20A56CBA00D7527A /* PageCollectionViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED40F7E20A56CBA00D7527A /* PageCollectionViewFlowLayout.swift */; };
 		CED40F8120A57A6000D7527A /* PageContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED40F8020A57A6000D7527A /* PageContentViewController.swift */; };
 		CED40F8320A57F6000D7527A /* PageHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED40F8220A57F6000D7527A /* PageHelper.swift */; };
+		CED40F8520A589B000D7527A /* PageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED40F8420A589B000D7527A /* PageView.swift */; };
+		CED40F8720A58ADD00D7527A /* PageViewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED40F8620A58ADD00D7527A /* PageViewManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +36,8 @@
 		CED40F7E20A56CBA00D7527A /* PageCollectionViewFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageCollectionViewFlowLayout.swift; sourceTree = "<group>"; };
 		CED40F8020A57A6000D7527A /* PageContentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageContentViewController.swift; sourceTree = "<group>"; };
 		CED40F8220A57F6000D7527A /* PageHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageHelper.swift; sourceTree = "<group>"; };
+		CED40F8420A589B000D7527A /* PageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageView.swift; sourceTree = "<group>"; };
+		CED40F8620A58ADD00D7527A /* PageViewManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageViewManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -86,6 +90,8 @@
 				CED40F7A20A41F1300D7527A /* PageStyle.swift */,
 				CED40F7E20A56CBA00D7527A /* PageCollectionViewFlowLayout.swift */,
 				CED40F8220A57F6000D7527A /* PageHelper.swift */,
+				CED40F8420A589B000D7527A /* PageView.swift */,
+				CED40F8620A58ADD00D7527A /* PageViewManager.swift */,
 			);
 			path = Source;
 			sourceTree = "<group>";
@@ -163,12 +169,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				CED40F8320A57F6000D7527A /* PageHelper.swift in Sources */,
+				CED40F8720A58ADD00D7527A /* PageViewManager.swift in Sources */,
 				CED40F7B20A41F1300D7527A /* PageStyle.swift in Sources */,
 				CED40F7920A41E0F00D7527A /* PageTitleView.swift in Sources */,
 				CED40F6820A41D0700D7527A /* ViewController.swift in Sources */,
 				CED40F8120A57A6000D7527A /* PageContentViewController.swift in Sources */,
 				CED40F7F20A56CBA00D7527A /* PageCollectionViewFlowLayout.swift in Sources */,
 				CED40F7D20A5669C00D7527A /* PageContentView.swift in Sources */,
+				CED40F8520A589B000D7527A /* PageView.swift in Sources */,
 				CED40F6620A41D0700D7527A /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
