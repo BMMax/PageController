@@ -19,7 +19,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let rect = CGRect(x: 0, y: 0, width: view.bounds.width, height: 40)
+        let rect = CGRect(x: 0, y: 20, width: view.bounds.width, height: 40)
         let titles = ["头条", "视频", "娱乐", "要问", "体育" , "科技" , "汽车" , "时尚" , "图片" , "游戏" , "房产"]
         let pageTitleView = PageTitleView(frame: rect, style: PageStyle(), titles: titles)
         view.addSubview(pageTitleView)
@@ -32,9 +32,12 @@ class ViewController: UIViewController {
         }
 
         let size = UIScreen.main.bounds.size
-        let cRect = CGRect(x: 0, y: 40, width: size.width, height: size.height - 40)
+        let cRect = CGRect(x: 0, y: 60, width: size.width, height: size.height - 60)
         let content = PageContentView(frame: cRect, style: PageStyle(), childViewController: childControllers)
         view.addSubview(content)
+
+        pageTitleView.delegate = content
+        content.delegate = pageTitleView
     }
 
     override func didReceiveMemoryWarning() {

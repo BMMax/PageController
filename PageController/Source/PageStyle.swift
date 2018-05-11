@@ -29,7 +29,7 @@ public struct PageStyle {
     public var bottomLineHeight: CGFloat = 2
 
     /// 是否需要缩放功能
-    public var isScaleEnable: Bool = false
+    public var isScaleEnable: Bool = true
     public var maximumScaleFactor: CGFloat = 1.2
 
     /// 是否需要显示coverView

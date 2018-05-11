@@ -133,8 +133,9 @@ extension PageContentView: UICollectionViewDelegate {
     }
 
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        guard decelerate == false else { return }
-        didEndScroll(scrollView)
+        if !decelerate {
+            didEndScroll(scrollView)
+        }
     }
 
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
@@ -143,31 +144,42 @@ extension PageContentView: UICollectionViewDelegate {
 
 
     private func updateUI(_ scrollView: UIScrollView) {
-        guard !isForbidDelegate else { return }
+        if isForbidDelegate {
+            return
+        }
 
         var progress: CGFloat = 0
-        var targetIndex: Int = 0
-        var sourceIndex: Int = 0
+        var targetIndex = 0
+        var sourceIndex = 0
+
+
+        progress = scrollView.contentOffset.x.truncatingRemainder(dividingBy: scrollView.bounds.width) / scrollView.bounds.width
+        if progress == 0 {
+            return
+        }
 
         let index = Int(scrollView.contentOffset.x / scrollView.bounds.width)
 
-        if collectionView.contentOffset.x > startOffsetX { // 左滑
+        if collectionView.contentOffset.x > startOffsetX { // 左滑动
             sourceIndex = index
             targetIndex = index + 1
-
-            if targetIndex > childViewController.count - 1 { return }
+            if targetIndex > childViewController.count - 1 {
+                return
+            }
         } else {
             sourceIndex = index + 1
             targetIndex = index
             progress = 1 - progress
-
-            if targetIndex < 0 { return }
+            if targetIndex < 0 {
+                return
+            }
         }
 
-        if progress > 0.998 { progress = 1}
+        if progress > 0.998 {
+            progress = 1
+        }
 
         delegate?.contentView(self, sourceIndex: sourceIndex, targetIndex: targetIndex, progress: progress)
-
     }
 
     private func didEndScroll(_ scrollView: UIScrollView) {

@@ -41,7 +41,14 @@ open class PageTitleView: UIView {
     private var style: PageStyle
     private var titles: [String]
     private var currentIndex: Int = 0
-
+    private lazy var selectRGB: ColorRGB = self.style.titleSelectedColor.getRGB()
+    private lazy var normalRGB: ColorRGB = self.style.titleColor.getRGB()
+    private lazy var deltaRGB: ColorRGB = {
+        let deltaR = self.selectRGB.red - self.normalRGB.red
+        let deltaG = self.selectRGB.green - self.normalRGB.green
+        let deltaB = self.selectRGB.blue - self.normalRGB.blue
+        return (deltaR, deltaG, deltaB)
+    }()
 
     private lazy var titleLabels: [UILabel] = [UILabel]()
     private lazy var scrollView: UIScrollView = {
@@ -276,5 +283,70 @@ extension PageTitleView {
         }
 
         scrollView.setContentOffset(CGPoint(x: offsetX, y: 0), animated: true)
+    }
+}
+
+
+extension PageTitleView: PageContentViewDelegate {
+    func contentView(_ contentView: PageContentView, inIndex: Int) {
+        currentIndex = inIndex
+
+        let targetLabel = titleLabels[currentIndex]
+        adjustLabelPosition(targetLabel)
+        fix(targetLabel)
+    }
+    func contentView(_ contentView: PageContentView, sourceIndex: Int, targetIndex: Int, progress: CGFloat) {
+        if sourceIndex > titleLabels.count - 1 || sourceIndex < 0 {
+            return
+        }
+        if targetIndex > titleLabels.count - 1 || targetIndex < 0 {
+            return
+        }
+        let sourceLabel = titleLabels[sourceIndex]
+        let targetLabel = titleLabels[targetIndex]
+
+        sourceLabel.textColor = UIColor(r: selectRGB.red - progress * deltaRGB.red, g: selectRGB.green - progress * deltaRGB.green, b: selectRGB.blue - progress * deltaRGB.blue)
+        targetLabel.textColor = UIColor(r: normalRGB.red + progress * deltaRGB.red, g: normalRGB.green + progress * deltaRGB.green, b: normalRGB.blue + progress * deltaRGB.blue)
+
+        if style.isScaleEnable {
+            let deltaScale = style.maximumScaleFactor - 1.0
+            sourceLabel.transform = CGAffineTransform(scaleX: style.maximumScaleFactor - progress * deltaScale, y: style.maximumScaleFactor - progress * deltaScale)
+            targetLabel.transform = CGAffineTransform(scaleX: 1.0 + progress * deltaScale, y: 1.0 + progress * deltaScale)
+        }
+
+        if style.isShowBottomLine {
+            let deltaX = targetLabel.frame.origin.x - sourceLabel.frame.origin.x
+            let deltaW = targetLabel.frame.width - sourceLabel.frame.width
+            bottomLine.frame.origin.x = sourceLabel.frame.origin.x + progress * deltaX
+            bottomLine.frame.size.width = sourceLabel.frame.width + progress * deltaW
+        }
+
+        if style.isShowCoverView {
+            let deltaX = targetLabel.frame.origin.x - sourceLabel.frame.origin.x
+            let deltaW = targetLabel.frame.width - sourceLabel.frame.width
+            coverView.frame.size.width = style.isTitleScrollEnable ? (sourceLabel.frame.width + 2 * style.coverMargin + deltaW * progress) : (sourceLabel.frame.width + deltaW * progress)
+            coverView.frame.origin.x = style.isTitleScrollEnable ? (sourceLabel.frame.origin.x - style.coverMargin + deltaX * progress) : (sourceLabel.frame.origin.x + deltaX * progress)
+        }
+    }
+
+    private func fix(_ targetLabel: UILabel) {
+        UIView.animate(withDuration: 0.05) {
+            targetLabel.textColor = self.style.titleSelectedColor
+
+            if self.style.isScaleEnable {
+                targetLabel.transform = CGAffineTransform(scaleX: self.style.maximumScaleFactor, y: self.style.maximumScaleFactor)
+            }
+
+            if self.style.isShowBottomLine {
+                self.bottomLine.frame.origin.x = targetLabel.frame.origin.x
+                self.bottomLine.frame.size.width = targetLabel.frame.width
+            }
+
+            if self.style.isShowCoverView {
+
+                self.coverView.frame.size.width = self.style.isTitleScrollEnable ? (targetLabel.frame.width + 2 * self.style.coverMargin) : targetLabel.frame.width
+                self.coverView.frame.origin.x = self.style.isTitleScrollEnable ? (targetLabel.frame.origin.x - self.style.coverMargin) : targetLabel.frame.origin.x
+            }
+        }
     }
 }
